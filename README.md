@@ -12,7 +12,7 @@ Context/given:
 Observation:
 - it seems the reverse proxy fails to redirect to the resouce server, it is suspected that this has to do with the ip addresses in the env variables
 - as the proxied resource server is also a pod on openshift it's ip address is likely to change on pod restart/redeployment
-- the bitnami openresty docker image is built based on the bitnami minideb docker image. This image contains virtually no tools to debug
+- the [bitnami openresty docker image](https://github.com/bitnami/containers/blob/main/bitnami/openresty/1.21/debian-11/Dockerfile) is built based on the bitnami [minideb](https://github.com/bitnami/minideb) docker image. This image contains virtually no tools for debugging
 
 Approach:
 - rebuild a comparable openresty image based on a full debian install (so debugging tools are availble) and verify where an at what point the observed environment variables come into existance
@@ -21,6 +21,7 @@ Approach:
 Starting point:
 - [docker file](https://github.com/openresty/docker-openresty/blob/master/bullseye/Dockerfile.fat) from openresty docker repo for Debian bullseye fat
 - adding lua plugins with opm according to [instructions](https://github.com/openresty/docker-openresty#opm)
+    - list of available plugins to be installed via opm on [https://opm.openresty.org/](https://opm.openresty.org/)
 - list of lua plugins: as available in the observed bitnami based implementation (i.e. no versions of said lua plugins are defined)
 - add config for resouce server to be proxied
 
@@ -36,4 +37,8 @@ Starting point:
 
 - Run the docker container interactively
 
-    ```docker run -it openresty-deb-fat bash```
+    ```docker run -it --expose 80 -p 80:80 openresty-deb-fat bash```
+
+- Inside the docker container start openresty
+
+    ```openresty```

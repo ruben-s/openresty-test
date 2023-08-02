@@ -27,6 +27,9 @@ LABEL resty_fat_deb_version="${RESTY_FAT_DEB_VERSION}"
 LABEL resty_fat_image_base="${RESTY_FAT_IMAGE_BASE}"
 LABEL resty_fat_image_tag="${RESTY_FAT_IMAGE_TAG}"
 
+# install ps
+RUN apt-get update && apt-get install -y procps && rm -rf /var/lib/apt/lists/*
+
 RUN DEBIAN_FRONTEND=noninteractive apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
         openresty-opm \
@@ -42,3 +45,4 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update \
         openresty-resty${RESTY_FAT_DEB_FLAVOR}${RESTY_FAT_DEB_VERSION} \
         openresty-opm${RESTY_FAT_DEB_FLAVOR}${RESTY_FAT_DEB_VERSION} \
     && rm -rf /var/lib/apt/lists/*
+
