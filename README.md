@@ -17,3 +17,23 @@ Observation:
 Approach:
 - rebuild a comparable openresty image based on a full debian install (so debugging tools are availble) and verify where an at what point the observed environment variables come into existance
 - validate that indeed the env vars containing ip addresses are the cause of the reverse proxy not being able to reach the resource server
+
+Starting point:
+- [docker file](https://github.com/openresty/docker-openresty/blob/master/bullseye/Dockerfile.fat) from openresty docker repo for Debian bullseye fat
+- adding lua plugins with opm according to [instructions](https://github.com/openresty/docker-openresty#opm)
+- list of lua plugins: as available in the observed bitnami based implementation (i.e. no versions of said lua plugins are defined)
+- add config for resouce server to be proxied
+
+### Practical
+
+- Building the docker image
+
+    ```docker build -t openresty-deb-fat - < Dockerfile```
+
+- List the images
+
+    ```docker images -a```
+
+- Run the docker container interactively
+
+    ```docker run -it openresty-deb-fat bash```
