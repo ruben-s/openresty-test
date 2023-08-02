@@ -3,5 +3,17 @@ Repo to capture tests with openresty
 
 Goal: test where env variables are being set
 
-Context:
-- ion of a reverse proxy with OIDC authentication based on Openresty with Lua plugins that inside 
+Context/given:
+- an implementation of a reverse proxy with OIDC authentication based on Openresty bitnami docker image with Lua plugins
+- a deployment of said docker image as a pod on Redhat Openshift
+- a resource server (i.e. that the openresty reverse proxy is shielding) also deployed on Openshift (same cluster)
+- environment variables in the openresty docker container refering to the resource server containing IP addresses 
+
+Observation:
+- it seems the reverse proxy fails to redirect to the resouce server, it is suspected that this has to do with the ip addresses in the env variables
+- as the proxied resource server is also a pod on openshift it's ip address is likely to change on pod restart/redeployment
+- the bitnami openresty docker image is built based on the bitnami minideb docker image. This image contains virtually no tools to debug
+
+Approach:
+- rebuild a comparable openresty image based on a full debian install (so debugging tools are availble) and verify where an at what point the observed environment variables come into existance
+- validate that indeed the env vars containing ip addresses are the cause of the reverse proxy not being able to reach the resource server
