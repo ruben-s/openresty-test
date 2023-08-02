@@ -46,4 +46,10 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update \
         openresty-opm${RESTY_FAT_DEB_FLAVOR}${RESTY_FAT_DEB_VERSION} \
     && rm -rf /var/lib/apt/lists/*
 
-ADD app.conf /etc/nginx/conf.d/app.conf
+RUN mkdir -p /usr/local/openresty/nginx/html/lua
+
+ADD ./nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
+ADD ./lua_test.conf /usr/local/openresty/nginx/conf/lua_test.conf
+ADD ./app.conf /etc/nginx/conf.d/app.conf
+
+EXPOSE 80 8080 5999

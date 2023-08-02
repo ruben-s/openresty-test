@@ -29,7 +29,7 @@ Starting point:
 
 - Building the docker image
 
-    ```docker build -t openresty-deb-fat - < Dockerfile```
+    ```docker build -t openresty-deb-fat .```
 
 - List the images
 
