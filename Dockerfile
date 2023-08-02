@@ -46,3 +46,4 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update \
         openresty-opm${RESTY_FAT_DEB_FLAVOR}${RESTY_FAT_DEB_VERSION} \
     && rm -rf /var/lib/apt/lists/*
 
+ADD app.conf /etc/nginx/conf.d/app.conf
